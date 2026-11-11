@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyBuddy AI</title>
+<style>
+  :root { --p:#4b1d52; --a:#e2231a; --bg:#f5f3f7; --card:#fff; --ink:#1f1a24; --mut:#6b6473; --ok:#1b8a4b; --bad:#c62828; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:linear-gradient(90deg,#3a1342,#5a2160); color:#fff; padding:16px 24px; }
+  header h1 { margin:0; font-size:1.3rem; }
+  header p { margin:4px 0 0; opacity:.85; font-size:.85rem; }
+  nav { display:flex; gap:4px; padding:12px 24px 0; max-width:900px; margin:auto; }
+  nav button { border:0; background:#e6e1ea; padding:10px 18px; border-radius:10px 10px 0 0; cursor:pointer; font-size:.95rem; color:var(--ink); }
+  nav button.on { background:var(--card); font-weight:600; color:var(--p); }
+  main { max-width:900px; margin:auto; background:var(--card); padding:20px 24px 28px; border-radius:0 0 14px 14px; min-height:480px; }
+  section { display:none; } section.on { display:block; }
+  #log { height:330px; overflow:auto; border:1px solid #e3dfe8; border-radius:10px; padding:12px; background:#faf9fb; }
+  .msg { margin:8px 0; padding:10px 14px; border-radius:12px; max-width:85%; line-height:1.45; white-space:pre-wrap; }
+  .me { background:var(--p); color:#fff; margin-left:auto; }
+  .bot { background:#ece7f1; }
+  .row { display:flex; gap:8px; margin-top:12px; }
+  input[type=text] { flex:1; padding:11px 14px; border:1px solid #cfc8d6; border-radius:10px; font-size:1rem; }
+  .btn { background:var(--a); color:#fff; border:0; padding:10px 18px; border-radius:10px; font-size:.95rem; cursor:pointer; }
+  .btn.alt { background:var(--p); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .chip { background:#efe9f3; border:1px solid #d8cfe0; padding:6px 12px; border-radius:20px; font-size:.85rem; cursor:pointer; }
+  .res { margin-top:8px; font-size:.85rem; }
+  .res a { color:var(--a); text-decoration:none; font-weight:600; }
+  .res div { padding:6px 10px; background:#fff; border:1px solid #e3dfe8; border-radius:8px; margin-top:5px; }
+  .opt { display:block; width:100%; text-align:left; margin:8px 0; padding:12px 14px; border:1px solid #cfc8d6; background:#fff; border-radius:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover { border-color:var(--p); }
+  .opt.right { background:#e5f5ea; border-color:var(--ok); }
+  .opt.wrong { background:#fdeaea; border-color:var(--bad); }
+  .tag { display:inline-block; font-size:.75rem; background:#efe9f3; color:var(--p); padding:3px 10px; border-radius:12px; margin-right:6px; }
+  .bar { height:14px; background:#ece7f1; border-radius:8px; overflow:hidden; } .bar i { display:block; height:100%; background:linear-gradient(90deg,#5a2160,#e2231a); }
+  .drow { display:grid; grid-template-columns:120px 1fr 120px; gap:12px; align-items:center; margin:12px 0; }
+  .mut { color:var(--mut); font-size:.85rem; }
+  h2 { margin:6px 0 10px; font-size:1.1rem; color:var(--p); }
+</style>
+</head>
+<body>
+<header>
+  <h1>StudyBuddy AI</h1>
+  <p>Personalized learning &amp; chatbot tutor &middot; UN SDG 4: Quality Education</p>
+</header>
+<nav>
+  <button class="on" data-tab="chat">Ask Tutor</button>
+  <button data-tab="quiz">Adaptive Quiz</button>
+  <button data-tab="dash">My Progress</button>
+</nav>
+<main>
+  <section id="chat" class="on">
+    <h2>Chat with your AI tutor</h2>
+    <div id="log"></div>
+    <div class="chips">
+      {% for s in ["What is photosynthesis?", "Explain quadratic equations", "How do loops work in Python?", "What is active and passive voice?"] %}
+      <span class="chip">{{ s }}</span>
+      {% endfor %}
+    </div>
+    <div class="row">
+      <input id="msg" type="text" placeholder="Ask a question..." autocomplete="off">
+      <button class="btn" id="send">Send</button>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2>Adaptive quiz</h2>
+    <p class="mut">Difficulty goes up when you answer correctly and down when you don't.</p>
+    <div class="chips" id="topics">
+      {% for t in topics %}<span class="chip" data-topic="{{ t }}">{{ t }}</span>{% endfor %}
+    </div>
+    <div id="qbox" style="margin-top:16px"></div>
+  </section>
+
+  <section id="dash">
+    <h2>My learning progress</h2>
+    <div id="dbox"></div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+let topic = null, current = null;
+
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('section').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); $('#' + b.dataset.tab).classList.add('on');
+  if (b.dataset.tab === 'dash') loadDash();
+  if (b.dataset.tab === 'quiz' && !current) nextQ();
+});
+
+function resHtml(list) {
+  if (!list || !list.length) return '';
+  return '<div class="res"><b>Recommended for you</b>' + list.map(r =>
+    `<div><a href="${r.url}" target="_blank">${esc(r.title)}</a> <span class="tag">${r.kind}</span><span class="tag">Level ${r.level}</span></div>`).join('') + '</div>';
+}
+function addMsg(html, who) {
+  const d = document.createElement('div'); d.className = 'msg ' + who; d.innerHTML = html;
+  $('#log').appendChild(d); $('#log').scrollTop = 1e6;
+}
+async function send(text) {
+  text = text.trim(); if (!text) return;
+  addMsg(esc(text), 'me'); $('#msg').value = '';
+  const r = await (await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message:text})})).json();
+  addMsg(md(r.answer) + resHtml(r.resources), 'bot');
+}
+$('#send').onclick = () => send($('#msg').value);
+$('#msg').onkeydown = e => { if (e.key === 'Enter') send($('#msg').value); };
+document.querySelectorAll('.chip:not([data-topic])').forEach(c => c.onclick = () => send(c.textContent));
+addMsg("Hi! I'm StudyBuddy, your AI tutor. Ask me anything about maths, science, programming or English.", 'bot');
+
+document.querySelectorAll('[data-topic]').forEach(c => c.onclick = () => { topic = c.dataset.topic; nextQ(); });
+async function nextQ() {
+  const q = await (await fetch('/api/quiz' + (topic ? '?topic=' + encodeURIComponent(topic) : ''))).json();
+  current = q;
+  $('#qbox').innerHTML = `<span class="tag">${q.topic}</span><span class="tag">Level ${q.level}</span><h3>${esc(q.q)}</h3>` +
+    q.options.map((o, i) => `<button class="opt" data-i="${i}">${esc(o)}</button>`).join('') + '<div id="fb"></div>';
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
+}
+async function answer(i) {
+  const r = await (await fetch('/api/answer', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id: current.id, choice: i})})).json();
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.disabled = true);
+  opts[i].classList.add(r.correct ? 'right' : 'wrong');
+  if (!r.correct) opts.forEach(o => { if (o.textContent === r.right_answer) o.classList.add('right'); });
+  $('#fb').innerHTML = `<p><b>${r.correct ? 'Correct!' : 'Not quite.'}</b> Your ${current.topic} mastery: ${r.mastery}% &middot; next level: ${r.new_level}</p>` +
+    resHtml(r.resources) + '<button class="btn alt" id="nx" style="margin-top:12px">Next question</button>';
+  $('#nx').onclick = nextQ;
+}
+async function loadDash() {
+  const d = await (await fetch('/api/dashboard')).json();
+  $('#dbox').innerHTML = d.rows.map(r => `<div class="drow"><b>${r.topic}</b>
+    <div class="bar"><i style="width:${r.mastery || 0}%"></i></div>
+    <span class="mut">${r.attempted ? r.mastery + '% (' + r.correct + '/' + r.attempted + ')' : 'not started'} &middot; L${r.level}</span></div>`).join('') +
+    (d.weakest ? `<p>Focus area: <b>${d.weakest}</b></p>` + resHtml(d.resources) : '<p class="mut">Take a quiz to see your personalized insights.</p>');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "topics": ["Mathematics", "Science", "Programming", "English"],
+  "knowledge": [
+    {"topic": "Mathematics", "title": "Quadratic equations", "text": "A quadratic equation has the form ax^2 + bx + c = 0. It is solved with the quadratic formula x = (-b ± sqrt(b^2 - 4ac)) / 2a. The discriminant b^2 - 4ac tells you the number of real roots: positive gives two, zero gives one, negative gives none."},
+    {"topic": "Mathematics", "title": "Pythagorean theorem", "text": "In a right-angled triangle, the square of the hypotenuse equals the sum of the squares of the other two sides: a^2 + b^2 = c^2. It is used to find missing side lengths and distances."},
+    {"topic": "Mathematics", "title": "Percentages", "text": "A percentage is a fraction out of 100. To find p percent of a number N, compute N x p / 100. Percentage change is (new - old) / old x 100."},
+    {"topic": "Mathematics", "title": "Probability basics", "text": "Probability of an event is favourable outcomes divided by total outcomes, always between 0 and 1. For independent events the probability that both happen is the product of their probabilities."},
+    {"topic": "Science", "title": "Photosynthesis", "text": "Photosynthesis is how plants make food. Chlorophyll in the leaves absorbs sunlight and uses it to turn carbon dioxide and water into glucose and oxygen: 6CO2 + 6H2O + light -> C6H12O6 + 6O2."},
+    {"topic": "Science", "title": "Newton's laws of motion", "text": "First law: an object stays at rest or in uniform motion unless acted on by a force (inertia). Second law: force equals mass times acceleration, F = ma. Third law: every action has an equal and opposite reaction."},
+    {"topic": "Science", "title": "Water cycle", "text": "The water cycle moves water between the Earth and atmosphere. Evaporation turns water into vapour, condensation forms clouds, precipitation brings rain or snow, and collection gathers water in rivers, lakes and oceans."},
+    {"topic": "Science", "title": "Acids and bases", "text": "Acids have a pH below 7 and taste sour, bases have a pH above 7 and feel slippery, and pH 7 is neutral. Acid plus base gives salt and water in a neutralisation reaction."},
+    {"topic": "Programming", "title": "Variables and data types", "text": "A variable stores a value under a name. Common data types are integers, floats, strings and booleans. In Python you create a variable by assigning, for example age = 18."},
+    {"topic": "Programming", "title": "Loops", "text": "Loops repeat code. A for loop iterates over a sequence such as a list or range, and a while loop repeats as long as a condition is true. Take care to avoid infinite loops by updating the condition."},
+    {"topic": "Programming", "title": "Functions", "text": "A function is a reusable block of code that takes inputs called parameters and can return a value. In Python you define one with def name(params): and call it with name(args). Functions reduce repetition and make code easier to test."},
+    {"topic": "Programming", "title": "Machine learning basics", "text": "Machine learning lets computers learn patterns from data instead of following hand-written rules. Supervised learning trains on labelled examples, unsupervised learning finds structure in unlabelled data, and the trained model makes predictions on new data."},
+    {"topic": "English", "title": "Parts of speech", "text": "The main parts of speech are noun, pronoun, verb, adjective, adverb, preposition, conjunction and interjection. Each describes the job a word does in a sentence."},
+    {"topic": "English", "title": "Active and passive voice", "text": "In active voice the subject performs the action: The dog chased the cat. In passive voice the subject receives the action: The cat was chased by the dog. Active voice is usually clearer and more direct."},
+    {"topic": "English", "title": "Writing a good paragraph", "text": "A strong paragraph has a topic sentence that states the main idea, supporting sentences with evidence or examples, and a concluding sentence that links back to the idea."}
+  ],
+  "quiz": [
+    {"id": 1, "topic": "Mathematics", "level": 1, "q": "What is 20% of 150?", "options": ["20", "30", "15", "35"], "answer": 1},
+    {"id": 2, "topic": "Mathematics", "level": 2, "q": "A right triangle has sides 3 and 4. What is the hypotenuse?", "options": ["5", "6", "7", "25"], "answer": 0},
+    {"id": 3, "topic": "Mathematics", "level": 3, "q": "How many real roots does x^2 + 2x + 5 = 0 have?", "options": ["Two", "One", "None", "Infinite"], "answer": 2},
+    {"id": 4, "topic": "Science", "level": 1, "q": "Which gas do plants release during photosynthesis?", "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"], "answer": 1},
+    {"id": 5, "topic": "Science", "level": 2, "q": "Which law is expressed as F = ma?", "options": ["First law", "Second law", "Third law", "Law of gravity"], "answer": 1},
+    {"id": 6, "topic": "Science", "level": 3, "q": "A solution has pH 3. It is best described as:", "options": ["Strong base", "Neutral", "Weak base", "Acidic"], "answer": 3},
+    {"id": 7, "topic": "Programming", "level": 1, "q": "Which is a boolean value in Python?", "options": ["'yes'", "3.5", "True", "[1]"], "answer": 2},
+    {"id": 8, "topic": "Programming", "level": 2, "q": "How many times does `for i in range(4)` run its body?", "options": ["3", "4", "5", "Infinite"], "answer": 1},
+    {"id": 9, "topic": "Programming", "level": 3, "q": "Which type of learning uses labelled examples?", "options": ["Supervised", "Unsupervised", "Random", "Manual"], "answer": 0},
+    {"id": 10, "topic": "English", "level": 1, "q": "Which word is a verb in: 'Birds sing loudly'?", "options": ["Birds", "sing", "loudly", "None"], "answer": 1},
+    {"id": 11, "topic": "English", "level": 2, "q": "Which sentence is in the passive voice?", "options": ["She wrote a letter.", "The letter was written by her.", "She is writing.", "Write the letter."], "answer": 1},
+    {"id": 12, "topic": "English", "level": 3, "q": "What does a topic sentence do?", "options": ["Ends the essay", "States the main idea of a paragraph", "Lists references", "Adds a title"], "answer": 1}
+  ],
+  "resources": [
+    {"topic": "Mathematics", "level": 1, "title": "Percentages made simple", "kind": "Video", "url": "https://www.khanacademy.org/math/arithmetic", "tags": "percent percentage fraction ratio basics arithmetic"},
+    {"topic": "Mathematics", "level": 2, "title": "Right triangles and Pythagoras", "kind": "Article", "url": "https://www.khanacademy.org/math/geometry", "tags": "pythagoras triangle hypotenuse geometry"},
+    {"topic": "Mathematics", "level": 3, "title": "Solving quadratics step by step", "kind": "Practice set", "url": "https://www.khanacademy.org/math/algebra", "tags": "quadratic equation roots discriminant algebra formula"},
+    {"topic": "Science", "level": 1, "title": "How plants make food", "kind": "Video", "url": "https://www.khanacademy.org/science/biology", "tags": "photosynthesis plants chlorophyll biology leaf"},
+    {"topic": "Science", "level": 2, "title": "Forces and Newton's laws", "kind": "Article", "url": "https://www.khanacademy.org/science/physics", "tags": "newton force motion acceleration physics"},
+    {"topic": "Science", "level": 3, "title": "pH, acids and bases", "kind": "Practice set", "url": "https://www.khanacademy.org/science/chemistry", "tags": "acid base ph chemistry neutralisation"},
+    {"topic": "Programming", "level": 1, "title": "Python for beginners", "kind": "Course", "url": "https://docs.python.org/3/tutorial/", "tags": "python variables data types loops basics code"},
+    {"topic": "Programming", "level": 2, "title": "Writing functions in Python", "kind": "Tutorial", "url": "https://docs.python.org/3/tutorial/controlflow.html", "tags": "python function def return parameters loops"},
+    {"topic": "Programming", "level": 3, "title": "Intro to machine learning", "kind": "Course", "url": "https://scikit-learn.org/stable/tutorial/basic/tutorial.html", "tags": "machine learning supervised unsupervised model data ai"},
+    {"topic": "English", "level": 1, "title": "Parts of speech guide", "kind": "Article", "url": "https://www.khanacademy.org/humanities/grammar", "tags": "noun verb adjective adverb grammar speech"},
+    {"topic": "English", "level": 2, "title": "Active vs passive voice", "kind": "Practice set", "url": "https://www.khanacademy.org/humanities/grammar", "tags": "active passive voice sentence grammar"},
+    {"topic": "English", "level": 3, "title": "Paragraph and essay writing", "kind": "Tutorial", "url": "https://www.khanacademy.org/humanities/grammar", "tags": "paragraph essay writing topic sentence"}
+  ]
+}
